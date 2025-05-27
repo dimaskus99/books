@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Notes</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h1>Books I've Read</h1>
+
+  <form action="/add" method="POST">
+    <input type="text" name="title" placeholder="Title" required>
+    <input type="text" name="author" placeholder="Author">
+    <input type="text" name="isbn" placeholder="ISBN">
+    <input type="number" name="rating" placeholder="Rating (1-10)">
+    <textarea name="notes" placeholder="Your notes..."></textarea>
+    <button type="submit">Add Book</button>
+  </form>
+
+  <% books.forEach(book => { %>
+    <div class="book">
+      <h2><%= book.title %> (<%= book.rating || 'NR' %>/10)</h2>
+      <p><strong>Author:</strong> <%= book.author %></p>
+      <% if (book.isbn) { %>
+        <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg" alt="Cover">
+      <% } %>
+      <p><%= book.notes %></p>
+      <p><em>Read on: <%= book.read_date.toDateString() %></em></p>
+      <form action="/delete" method="POST">
+        <input type="hidden" name="id" value="<%= book.id %>">
+        <button type="submit">Delete</button>
+      </form>
+    </div>
+  <% }); %>
+</body>
+</html>
